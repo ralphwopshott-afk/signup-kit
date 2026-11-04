@@ -146,10 +146,15 @@ function useClerkSignUpAdapter(options) {
       async getRules() {
         const { clerk: clerk2 } = live.current;
         for (let i = 0; i < 50 && !clerk2.loaded; i++) await new Promise((r) => setTimeout(r, 100));
-        const raw = await readPasswordSettings(clerk2, clerk2.publishableKey);
-        const settings = normaliseClerkPasswordSettings(raw);
-        const estimate = settings.show_zxcvbn ? await loadZxcvbnEstimator() : void 0;
-        return rulesFromClerkSettings(raw, estimate);
+        try {
+          const raw = await readPasswordSettings(clerk2, clerk2.publishableKey);
+          const settings = normaliseClerkPasswordSettings(raw);
+          const estimate = settings.show_zxcvbn ? await loadZxcvbnEstimator() : void 0;
+          return rulesFromClerkSettings(raw, estimate);
+        } catch {
+          const estimate = await loadZxcvbnEstimator().catch(() => void 0);
+          return rulesFromClerkSettings({ show_zxcvbn: true, min_zxcvbn_strength: 2 }, estimate);
+        }
       },
       async signUp(values) {
         const { signUp: signUp2, isLoaded: isLoaded2 } = live.current;
@@ -162,8 +167,15 @@ function useClerkSignUpAdapter(options) {
             password: values.password
           });
           if (created.status === "complete") return await finish(created);
-          await signUp2.prepareEmailAddressVerification({ strategy: "email_code" });
-          return { status: "verify-email" };
+          if (created.unverifiedFields?.includes("email_address")) {
+            await signUp2.prepareEmailAddressVerification({ strategy: "email_code" });
+            return { status: "verify-email" };
+          }
+          const missing = (created.missingFields ?? []).map((f) => f.replace(/_/g, " ")).join(", ");
+          return {
+            status: "error",
+            message: missing ? `We still need: ${missing}. Please contact support if this keeps happening.` : "We couldn't finish creating your account. Please try again."
+          };
         } catch (e) {
           return { status: "error", ...mapClerkError(e) };
         }

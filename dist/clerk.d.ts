@@ -1,4 +1,4 @@
-import { S as SignUpAdapter, P as PasswordRule, a as SignUpField } from './types-BpzGCy2P.js';
+import { S as SignUpAdapter, P as PasswordRule, a as SignUpField } from './types-C--RnKg3.js';
 
 interface ClerkAdapterOptions {
     /** Where to go once signed up (and after Google). */

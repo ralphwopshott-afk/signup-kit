@@ -1,6 +1,6 @@
 {
   "name": "signup-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ralph's one sign-up form: UI, live password checklist and wording. Auth backends plug in through a small adapter.",
   "private": true,
   "type": "module",

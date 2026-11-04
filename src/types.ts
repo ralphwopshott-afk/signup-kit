@@ -56,6 +56,7 @@ export interface SignUpText {
   verifyTitle: string;
   verifyHint: (email: string) => string;
   code: string;
+  back: string;
   resend: string;
   resent: string;
   working: string;
@@ -82,6 +83,7 @@ export const DEFAULT_TEXT: SignUpText = {
   verifyTitle: "Check your email",
   verifyHint: (email) => (email ? `We sent a 6-digit code to ${email}` : "We sent you a 6-digit code"),
   code: "6-digit code",
+  back: "Wrong email? Go back",
   resend: "Resend code",
   resent: "Code sent",
   working: "One moment…",

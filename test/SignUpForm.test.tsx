@@ -137,6 +137,17 @@ describe("SignUpForm", () => {
     expect(await screen.findByText(/Code sent/)).toBeInTheDocument();
   });
 
+  it("lets the user go back from the code step with fields kept", async () => {
+    const u = userEvent.setup();
+    render(<SignUpForm adapter={make()} />);
+    await screen.findByText("A number");
+    await fillDetails(u);
+    await u.click(cont());
+    await u.click(await screen.findByRole("button", { name: "Wrong email? Go back" }));
+    expect(screen.getByLabelText("Email")).toHaveValue("ann@example.com");
+    expect(screen.getByLabelText("Password")).toHaveValue("abcdefg1");
+  });
+
   it("toggles password visibility", async () => {
     const u = userEvent.setup();
     render(<SignUpForm adapter={make()} />);

@@ -1,6 +1,6 @@
 import * as react from 'react';
-import { S as SignUpAdapter, b as SignUpText, P as PasswordRule } from './types-BpzGCy2P.js';
-export { D as DEFAULT_TEXT, a as SignUpField, c as SignUpResult, d as SignUpValues, e as StepResult } from './types-BpzGCy2P.js';
+import { S as SignUpAdapter, b as SignUpText, P as PasswordRule } from './types-C--RnKg3.js';
+export { D as DEFAULT_TEXT, a as SignUpField, c as SignUpResult, d as SignUpValues, e as StepResult } from './types-C--RnKg3.js';
 
 interface SignUpFormProps {
     adapter: SignUpAdapter;

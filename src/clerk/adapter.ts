@@ -69,10 +69,16 @@ export function useClerkSignUpAdapter(options: ClerkAdapterOptions): SignUpAdapt
         const { clerk } = live.current;
         // Wait briefly for clerk-js to load its environment.
         for (let i = 0; i < 50 && !(clerk as { loaded?: boolean }).loaded; i++) await new Promise((r) => setTimeout(r, 100));
-        const raw = await readPasswordSettings(clerk, (clerk as { publishableKey?: string }).publishableKey);
-        const settings = normaliseClerkPasswordSettings(raw);
-        const estimate = settings.show_zxcvbn ? await loadZxcvbnEstimator() : undefined;
-        return rulesFromClerkSettings(raw, estimate);
+        try {
+          const raw = await readPasswordSettings(clerk, (clerk as { publishableKey?: string }).publishableKey);
+          const settings = normaliseClerkPasswordSettings(raw);
+          const estimate = settings.show_zxcvbn ? await loadZxcvbnEstimator() : undefined;
+          return rulesFromClerkSettings(raw, estimate);
+        } catch {
+          // Settings unreachable: show Clerk's defaults (8 characters + strength) rather than no checklist.
+          const estimate = await loadZxcvbnEstimator().catch(() => undefined);
+          return rulesFromClerkSettings({ show_zxcvbn: true, min_zxcvbn_strength: 2 }, estimate);
+        }
       },
 
       async signUp(values): Promise<SignUpResult> {
@@ -86,8 +92,17 @@ export function useClerkSignUpAdapter(options: ClerkAdapterOptions): SignUpAdapt
             password: values.password,
           });
           if (created.status === "complete") return await finish(created);
-          await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-          return { status: "verify-email" };
+          if (created.unverifiedFields?.includes("email_address")) {
+            await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+            return { status: "verify-email" };
+          }
+          const missing = (created.missingFields ?? []).map((f) => f.replace(/_/g, " ")).join(", ");
+          return {
+            status: "error",
+            message: missing
+              ? `We still need: ${missing}. Please contact support if this keeps happening.`
+              : "We couldn't finish creating your account. Please try again.",
+          };
         } catch (e) {
           return { status: "error", ...mapClerkError(e) };
         }

@@ -58,6 +58,7 @@ interface SignUpText {
     verifyTitle: string;
     verifyHint: (email: string) => string;
     code: string;
+    back: string;
     resend: string;
     resent: string;
     working: string;

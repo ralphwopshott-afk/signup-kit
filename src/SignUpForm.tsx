@@ -241,6 +241,20 @@ export function SignUpForm({ adapter, signInHref, onSignIn, onDone, text, classN
             {busy ? t.working : t.continue}
           </button>
         </form>
+        <p className="sk-switch">
+          <button
+            type="button"
+            className="sk-link sk-linkbutton"
+            onClick={() => {
+              setStep("details");
+              setErrors({});
+              setCode("");
+              setResent(false);
+            }}
+          >
+            {t.back}
+          </button>
+        </p>
         {adapter.resendCode ? (
           <p className="sk-switch">
             <button type="button" className="sk-link sk-linkbutton" onClick={resend} disabled={busy}>

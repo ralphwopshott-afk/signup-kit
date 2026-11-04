@@ -37,6 +37,7 @@ var DEFAULT_TEXT = {
   verifyTitle: "Check your email",
   verifyHint: (email) => email ? `We sent a 6-digit code to ${email}` : "We sent you a 6-digit code",
   code: "6-digit code",
+  back: "Wrong email? Go back",
   resend: "Resend code",
   resent: "Code sent",
   working: "One moment\u2026",
@@ -215,6 +216,20 @@ function SignUpForm({ adapter, signInHref, onSignIn, onDone, text, className }) 
           ]
         }
       ),
+      /* @__PURE__ */ jsx("p", { className: "sk-switch", children: /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          className: "sk-link sk-linkbutton",
+          onClick: () => {
+            setStep("details");
+            setErrors({});
+            setCode("");
+            setResent(false);
+          },
+          children: t.back
+        }
+      ) }),
       adapter.resendCode ? /* @__PURE__ */ jsxs("p", { className: "sk-switch", children: [
         /* @__PURE__ */ jsx("button", { type: "button", className: "sk-link sk-linkbutton", onClick: resend, disabled: busy, children: t.resend }),
         resent ? /* @__PURE__ */ jsxs("span", { className: "sk-resent", role: "status", children: [
