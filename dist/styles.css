@@ -1,0 +1,115 @@
+/*
+ * signup-kit styles. Every colour, radius, font and spacing is a --sk-* variable
+ * with a sensible default; an app maps its own design tokens onto them, e.g.
+ *   .sk-card { --sk-accent: var(--color-accent); --sk-radius: var(--radius-card); }
+ */
+.sk-card {
+  --sk-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sk-bg: #ffffff;
+  --sk-ink: #1a202c;
+  --sk-ink-dim: #4a5568;
+  --sk-edge: #cbd5e1;
+  --sk-edge-soft: #e2e8f0;
+  --sk-accent: #2563eb;
+  --sk-accent-hover: #1d4ed8;
+  --sk-accent-ink: #ffffff;
+  --sk-ok: #047857;
+  --sk-ok-soft: #d1fae5;
+  --sk-error: #b91c1c;
+  --sk-focus: #2563eb;
+  --sk-disabled-bg: #e2e8f0;
+  --sk-disabled-ink: #64748b;
+  --sk-radius: 14px;
+  --sk-radius-control: 10px;
+  --sk-border: 1px;
+  --sk-shadow: 0 10px 30px rgb(15 23 42 / 0.08);
+  --sk-gap: 1rem;
+  --sk-pad: 1.75rem;
+  --sk-control-h: 3.25rem;
+  --sk-text: 1.125rem;
+  --sk-text-small: 1rem;
+  --sk-title: 1.75rem;
+  --sk-width: 28rem;
+
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--sk-width);
+  margin: 0 auto;
+  padding: var(--sk-pad);
+  background: var(--sk-bg);
+  color: var(--sk-ink);
+  font-family: var(--sk-font);
+  font-size: var(--sk-text);
+  line-height: 1.4;
+  border: var(--sk-border) solid var(--sk-edge-soft);
+  border-radius: var(--sk-radius);
+  box-shadow: var(--sk-shadow);
+}
+.sk-card *,
+.sk-card *::before,
+.sk-card *::after { box-sizing: border-box; }
+
+.sk-title { margin: 0 0 var(--sk-gap); font-size: var(--sk-title); font-weight: 700; line-height: 1.2; text-align: center; }
+.sk-hint { margin: 0 0 var(--sk-gap); color: var(--sk-ink-dim); text-align: center; overflow-wrap: anywhere; }
+
+.sk-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sk-gap); }
+.sk-field { margin-bottom: var(--sk-gap); min-width: 0; }
+.sk-label { display: block; margin-bottom: 0.35rem; font-size: var(--sk-text-small); font-weight: 600; }
+
+.sk-input {
+  display: block; width: 100%; min-height: var(--sk-control-h); padding: 0.5rem 0.85rem;
+  font: inherit; color: var(--sk-ink); background: var(--sk-bg);
+  border: 2px solid var(--sk-edge); border-radius: var(--sk-radius-control);
+}
+.sk-input[aria-invalid="true"] { border-color: var(--sk-error); }
+.sk-input:focus-visible, .sk-button:focus-visible, .sk-eye:focus-visible, .sk-link:focus-visible {
+  outline: 3px solid var(--sk-focus); outline-offset: 2px;
+}
+.sk-code { text-align: center; letter-spacing: 0.5em; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+
+.sk-pw { position: relative; }
+.sk-pw .sk-input { padding-right: 3.5rem; }
+.sk-eye {
+  position: absolute; top: 0; right: 0; width: var(--sk-control-h); height: var(--sk-control-h);
+  display: grid; place-items: center; background: none; border: 0; color: var(--sk-ink-dim);
+  border-radius: var(--sk-radius-control); cursor: pointer;
+}
+
+.sk-checklist { list-style: none; margin: 0.6rem 0 0; padding: 0; display: grid; gap: 0.35rem; }
+.sk-check { display: flex; align-items: center; gap: 0.6rem; font-size: var(--sk-text-small); color: var(--sk-ink-dim); }
+.sk-check[data-met="true"] { color: var(--sk-ok); font-weight: 600; }
+.sk-tick {
+  flex: none; display: inline-grid; place-items: center; width: 1.375rem; height: 1.375rem;
+  border-radius: 50%; border: 2px solid var(--sk-edge); background: transparent; color: var(--sk-ok);
+}
+.sk-check[data-met="true"] .sk-tick { border-color: var(--sk-ok); background: var(--sk-ok-soft); }
+
+.sk-error { margin: 0.4rem 0 0; font-size: var(--sk-text-small); font-weight: 600; color: var(--sk-error); }
+form > .sk-error { margin: 0 0 var(--sk-gap); }
+
+.sk-button {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%;
+  min-height: var(--sk-control-h); padding: 0.5rem 1rem; font: inherit; font-weight: 700; cursor: pointer;
+  color: var(--sk-ink); background: var(--sk-bg); border: 2px solid var(--sk-edge); border-radius: var(--sk-radius-control);
+}
+.sk-button:hover:not(:disabled) { border-color: var(--sk-ink-dim); }
+.sk-primary { color: var(--sk-accent-ink); background: var(--sk-accent); border-color: var(--sk-accent); }
+.sk-primary:hover:not(:disabled) { background: var(--sk-accent-hover); border-color: var(--sk-accent-hover); }
+.sk-button:disabled,
+.sk-primary:disabled { cursor: not-allowed; color: var(--sk-disabled-ink); background: var(--sk-disabled-bg); border-color: var(--sk-disabled-bg); }
+.sk-google:disabled { background: var(--sk-bg); border-color: var(--sk-edge); }
+
+.sk-divider { display: flex; align-items: center; gap: 0.75rem; margin: var(--sk-gap) 0; color: var(--sk-ink-dim); font-size: var(--sk-text-small); }
+.sk-divider::before, .sk-divider::after { content: ""; flex: 1; height: 1px; background: var(--sk-edge-soft); }
+
+.sk-switch { margin: var(--sk-gap) 0 0; text-align: center; color: var(--sk-ink-dim); }
+.sk-link { color: var(--sk-accent); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.sk-linkbutton { background: none; border: 0; padding: 0.5rem; font: inherit; font-weight: 700; cursor: pointer; }
+.sk-resent { color: var(--sk-ok); font-weight: 600; }
+
+.sk-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 420px) {
+  .sk-card { --sk-pad: 1.25rem; }
+  .sk-row { grid-template-columns: 1fr; gap: 0; }
+}

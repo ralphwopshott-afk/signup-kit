@@ -1,0 +1,48 @@
+{
+  "name": "signup-kit",
+  "version": "0.1.0",
+  "description": "Ralph's one sign-up form: UI, live password checklist and wording. Auth backends plug in through a small adapter.",
+  "private": true,
+  "type": "module",
+  "sideEffects": ["**/*.css"],
+  "files": ["dist", "README.md"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./clerk": { "types": "./dist/clerk.d.ts", "import": "./dist/clerk.js" },
+    "./styles.css": "./dist/styles.css"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/copy-css.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@clerk/clerk-react": ">=5",
+    "react": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@clerk/clerk-react": { "optional": true }
+  },
+  "dependencies": {
+    "@zxcvbn-ts/core": "^3.0.4",
+    "@zxcvbn-ts/language-common": "^3.0.4",
+    "@zxcvbn-ts/language-en": "^3.0.2"
+  },
+  "devDependencies": {
+    "@clerk/clerk-react": "^5.61.3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "jsdom": "^25.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "~5.9.0",
+    "vitest": "^2.1.8"
+  }
+}
