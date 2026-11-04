@@ -52,10 +52,8 @@ export function rulesFromClerkSettings(raw: unknown, estimate?: StrengthEstimato
 
   const min = s.min_length && s.min_length > 0 ? s.min_length : CLERK_DEFAULT_MIN_LENGTH;
   rules.push({ id: "min-length", label: `At least ${min} characters`, test: (pw) => pw.length >= min });
-  if (s.max_length && s.max_length > 0) {
-    const max = s.max_length;
-    rules.push({ id: "max-length", label: `No more than ${max} characters`, test: (pw) => pw.length <= max });
-  }
+  // No upper-limit row on purpose: clerk-js reports its 72-character ceiling as a setting, and a row
+  // that is ticked from the start is just noise. Someone who hits it gets a plain-English error.
   if (s.require_lowercase) rules.push({ id: "lowercase", label: "A lowercase letter", test: (pw) => /\p{Ll}/u.test(pw) });
   if (s.require_uppercase) rules.push({ id: "uppercase", label: "A capital letter", test: (pw) => /\p{Lu}/u.test(pw) });
   if (s.require_numbers) rules.push({ id: "number", label: "A number", test: (pw) => /\d/.test(pw) });
